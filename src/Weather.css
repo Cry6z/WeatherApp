@@ -1,0 +1,306 @@
+/* Container utama */
+.weather-container {
+  min-height: 100vh;
+  padding: 64px 24px 96px;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #e0f2fe 0%, #fff 45%, #f0f9ff 100%);
+  color: #0f172a;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.weather-container::before {
+  content: "";
+  position: absolute;
+  inset: 48px;
+  border-radius: 32px;
+  background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(16,185,129,0.15));
+  filter: blur(60px);
+  z-index: 0;
+}
+
+.weather-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.85rem;
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+
+.app-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  margin: 0;
+}
+
+.app-subtitle {
+  margin: 12px auto 32px;
+  max-width: 520px;
+  color: #475569;
+  line-height: 1.5;
+}
+
+/* Input group */
+.input-group {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+input {
+  padding: 14px 16px;
+  width: min(320px, 90vw);
+  border-radius: 14px;
+  border: 1px solid rgba(15, 23, 42, 0.15);
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+  font-size: 1rem;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus {
+  outline: none;
+  border-color: #38bdf8;
+  box-shadow: 0 12px 32px rgba(59, 130, 246, 0.2);
+}
+
+button {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  box-shadow: 0 12px 30px rgba(14, 165, 233, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 40px rgba(14, 165, 233, 0.4);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+.empty-state {
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  border-radius: 24px;
+  padding: 32px;
+  max-width: 420px;
+  margin: 0 auto;
+  color: #475569;
+  box-shadow: 0 25px 80px rgba(15, 23, 42, 0.08);
+}
+
+/* Card cuaca */
+.weather-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 28px;
+  padding: 28px;
+  box-shadow: 0 30px 80px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+  text-align: left;
+  width: min(360px, 100%);
+  backdrop-filter: blur(10px);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.weather-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(14,165,233,0.12), rgba(59,130,246,0.12));
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.weather-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 45px 100px rgba(15, 23, 42, 0.2);
+}
+
+.weather-card:hover::after {
+  opacity: 1;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-header svg {
+  filter: drop-shadow(0 10px 25px rgba(14, 165, 233, 0.35));
+  animation: floatIcon 6s ease-in-out infinite;
+}
+
+.card-label {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-bottom: 6px;
+}
+
+.weather-card h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.weather-card p {
+  margin: 6px 0;
+  color: #475569;
+}
+
+.temp {
+  font-size: 3rem;
+  font-weight: 700;
+  margin: 8px 0 4px;
+}
+
+.desc {
+  text-transform: capitalize;
+  color: #0ea5e9 !important;
+  font-weight: 600;
+}
+
+.weather-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 24px 0 18px;
+}
+
+.weather-metrics div {
+  background: rgba(226, 232, 240, 0.4);
+  border-radius: 16px;
+  padding: 12px;
+  text-align: center;
+  transform: translateY(20px);
+  opacity: 0;
+  animation: metricFade 0.6s ease forwards;
+}
+
+.weather-metrics span {
+  display: block;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.weather-metrics strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #0f172a;
+  margin-top: 2px;
+}
+
+.sun-times {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: #475569;
+  gap: 8px;
+}
+
+.sun-times svg {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+
+.weather-card:nth-child(1) .weather-metrics div { animation-delay: 0.05s; }
+.weather-card:nth-child(2) .weather-metrics div { animation-delay: 0.1s; }
+.weather-card:nth-child(3) .weather-metrics div { animation-delay: 0.15s; }
+.weather-card:nth-child(n+4) .weather-metrics div { animation-delay: 0.2s; }
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes metricFade {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Container grid untuk banyak card */
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+  justify-items: center;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+/* Header */
+.weather-container h1 {
+  text-shadow: none;
+}
+
+/* Animasi Hujan */
+.rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://i.ibb.co/N2YvKxk/rain.png');
+  background-repeat: repeat;
+  animation: rainAnim 1s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Animasi Salju */
+.snow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('https://i.ibb.co/9yp0JxB/snow.png');
+  background-repeat: repeat;
+  animation: snowAnim 10s linear infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keyframes animasi */
+@keyframes rainAnim { 0% {background-position:0 0;} 100% {background-position:0 100%;} }
+@keyframes snowAnim { 0% {background-position:0 0;} 100% {background-position:0 100%;} }
+
+@media (max-width: 640px) {
+  .weather-container {
+    padding: 48px 18px;
+  }
+
+  .weather-card {
+    padding: 24px;
+  }
+
+  .sun-times {
+    flex-direction: column;
+    text-align: center;
+  }
+}
